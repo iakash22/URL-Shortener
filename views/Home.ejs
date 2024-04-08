@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<style>
+    body{
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+</style>
+
+<body>
+    <h1>Url Shortner</h1>
+    <% if (locals.id) { %>
+        <p>Url Generated: <a href="http://localhost:3000/url/<%= id %>" target="_blank">http://localhost:3000/url/<%= id %></a></p>
+    <% } %>
+    <form method="post" action="/url">
+        <input 
+            type="text"
+            name="url"
+            placeholder="https://www.example.com"   
+        />
+        <button type="submit">Generate</button>
+    </form>
+    <% if (locals.data) { %>
+        <table>
+            <thead>
+                <th>S. No</th>
+                <th>ShortId</th>
+                <th>Redirect</th>
+                <th>Clicks</th>
+                <% if (locals.data[0]?.createdBy?.name) { %>
+                    <th>CreatedBy</th>
+                <% } %>
+            </thead>
+            <tbody>
+                <% data.forEach((url, index) => { %>
+                    <tr>
+                        <td><%= index+1 %></td>
+                        <td><%= url?.shortId %></td>
+                        <td><%= url?.redirectUrl %></td>
+                        <td><%= url?.visitHistory.length %></td>
+                        <% if (locals.data[0]?.createdBy?.name) { %>
+                            <td><%= url?.createdBy?.name %></td>
+                        <% } %>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+    
+</body>
+
+</html>
